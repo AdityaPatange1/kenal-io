@@ -83,11 +83,31 @@ kenal info            # Show framework info
 kenal run config.json "input text"  # Run a pipeline from JSON config
 ```
 
+## Examples
+
+Numbered scripts in `examples/` walk through blocks, rules, plates, roads, frames, JSON-shaped config (`examples/config/pipeline.json`), and the `kenal` CLI. Run them all in order with colored banners:
+
+```bash
+make examples
+# or: python -u scripts/run_examples.py
+# or: ./scripts/run_examples.sh
+```
+
+Run the full pytest suite with the same style of headers and pytest’s own colored output:
+
+```bash
+make run-tests
+# or: python -u scripts/run_tests.py
+# or: ./scripts/run_tests.sh
+```
+
 ## Development
 
 ```bash
 make install   # Install in editable mode with dev dependencies
-make test      # Run tests
+make test      # Run tests (pytest directly)
+make run-tests # Tests via scripts/run_tests.py (colored banners + pytest colors)
+make examples  # Run all examples sequentially
 make lint      # Ruff + mypy
 make validate  # lint + test
 make build     # Build distributable

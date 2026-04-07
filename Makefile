@@ -1,4 +1,4 @@
-.PHONY: build lint test validate clean install dev format
+.PHONY: build lint test validate clean install dev format examples run-tests
 
 PYTHON ?= python3
 
@@ -17,6 +17,12 @@ lint:
 
 test:
 	$(PYTHON) -m pytest tests/ -v --tb=short
+
+examples:
+	$(PYTHON) -u scripts/run_examples.py
+
+run-tests:
+	$(PYTHON) -u scripts/run_tests.py
 
 validate: lint test
 	@echo "All checks passed."

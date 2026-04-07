@@ -30,12 +30,11 @@ class Block:
     def __init__(
         self,
         name: str,
-        *,
         rules: list[str | Rule] | None = None,
         process: Callable[[Payload], Payload] | None = None,
     ) -> None:
         if not name:
-            raise BlockError("Block name cannot be empty")
+            raise BlockError("Block name cannot be empty.")
         self.name = name
         self.rules: list[Rule] = normalize_rules(rules)
         self._process = process

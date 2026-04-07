@@ -1,0 +1,17 @@
+{
+  "frame": {
+    "name": "from-config",
+    "rules": ["Demonstrate JSON-driven wiring."]
+  },
+  "blocks": [
+    { "name": "rev", "rules": [] },
+    { "name": "tag", "rules": [] }
+  ],
+  "plates": [],
+  "roads": [
+    {
+      "name": "line",
+      "stops": ["rev", "tag"]
+    }
+  ]
+}

@@ -8,6 +8,10 @@ import sys
 from typing import Any
 
 from kenal._version import __version__
+from kenal.block import Block
+from kenal.frame import Frame
+from kenal.plate import Plate
+from kenal.road import Road
 
 
 def main() -> int:
@@ -15,11 +19,11 @@ def main() -> int:
     parser.add_argument("--version", action="version", version=f"kenal {__version__}")
     subparsers = parser.add_subparsers(dest="command")
 
-    run_parser = subparsers.add_parser("run", help="Run a kenal frame from a JSON config")
-    run_parser.add_argument("config", help="Path to a kenal JSON config file")
-    run_parser.add_argument("input", help="Input data to process")
+    run_parser = subparsers.add_parser("run", help="Run a kenal frame from a JSON config.")
+    run_parser.add_argument("config", help="Path to a kenal JSON config file.")
+    run_parser.add_argument("input", help="Input data to process.")
 
-    subparsers.add_parser("info", help="Show kenal framework info")
+    subparsers.add_parser("info", help="Show kenal framework info.")
 
     args = parser.parse_args()
 
@@ -46,10 +50,6 @@ def _print_info() -> None:
 
 
 def _run_config(config_path: str, input_data: str) -> int:
-    from kenal.block import Block
-    from kenal.frame import Frame
-    from kenal.plate import Plate
-    from kenal.road import Road
 
     try:
         with open(config_path) as fh:
