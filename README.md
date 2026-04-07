@@ -101,13 +101,60 @@ make run-tests
 # or: ./scripts/run_tests.sh
 ```
 
+### LLM examples (`08`–`10`)
+
+Examples **`08_llm_block.py`**, **`09_llm_frame_road.py`**, and **`10_engine_generate.py`** call Ollama through `kenal` (no `process=` on blocks). They share helpers in `examples/llm_support.py`.
+
+### Comprehensive Ollama suite (≈50 cases)
+
+`examples/11_llm_comprehensive_suite.py` runs ~50 deterministic-ish LLM scenarios across:
+- `engine.generate`
+- `Block` (LLM path: no `process=`)
+- `Plate` / `Road` / `Frame` composition
+
+Reliability controls:
+
+```bash
+# Fail if Ollama is unreachable (instead of skipping)
+export KENAL_REQUIRE_LLM=1
+
+# Retry each case on failure
+export KENAL_LLM_RETRIES=2
+
+# Strict mode: any failure exits 1
+export KENAL_LLM_STRICT=1
+
+# Or allow a small budget of failures before failing
+export KENAL_LLM_MAX_FAILS=3
+
+python examples/11_llm_comprehensive_suite.py
+```
+
+| Variable | Effect |
+|----------|--------|
+| *(default)* | If Ollama is unreachable, these examples print a notice and **exit 0** (skipped) so `make examples` still succeeds in CI. |
+| `KENAL_SKIP_LLM=1` | Skip LLM examples without probing the server. |
+| `KENAL_REQUIRE_LLM=1` | If Ollama is down, **exit 1** instead of skipping. |
+
+### Live LLM integration tests
+
+Unit tests mock Ollama. Optional **live** tests in `tests/test_llm_integration.py` hit a real server when enabled:
+
+```bash
+export KENAL_RUN_LLM_INTEGRATION=1
+pytest tests/test_llm_integration.py -m integration -v
+# or:
+make test-llm-integration
+```
+
 ## Development
 
 ```bash
 make install   # Install in editable mode with dev dependencies
-make test      # Run tests (pytest directly)
+make test      # Run tests (pytest directly; integration tests skip unless env is set)
 make run-tests # Tests via scripts/run_tests.py (colored banners + pytest colors)
-make examples  # Run all examples sequentially
+make examples  # Run all examples sequentially (LLM examples skip if Ollama unavailable)
+make test-llm-integration  # Live Ollama tests (requires KENAL_RUN_LLM_INTEGRATION and a server)
 make lint      # Ruff + mypy
 make validate  # lint + test
 make build     # Build distributable

@@ -53,6 +53,9 @@ packages = ["src/kenal"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]
+markers = [
+    "integration: live Ollama tests; set KENAL_RUN_LLM_INTEGRATION=1 and run against a running server",
+]
 
 [tool.ruff]
 target-version = "py311"

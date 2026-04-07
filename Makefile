@@ -1,4 +1,4 @@
-.PHONY: build lint test validate clean install dev format examples run-tests
+.PHONY: build lint test validate clean install dev format examples run-tests test-llm-integration
 
 PYTHON ?= python3
 
@@ -17,6 +17,9 @@ lint:
 
 test:
 	$(PYTHON) -m pytest tests/ -v --tb=short
+
+test-llm-integration:
+	KENAL_RUN_LLM_INTEGRATION=1 $(PYTHON) -m pytest tests/test_llm_integration.py -m integration -v --tb=short
 
 examples:
 	$(PYTHON) -u scripts/run_examples.py
