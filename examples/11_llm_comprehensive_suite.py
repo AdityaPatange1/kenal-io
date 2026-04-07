@@ -177,6 +177,30 @@ def build_cases() -> list[Case]:
             )
         )
 
+    # Extra engine.generate exact-token cases (to ensure >= 50 total).
+    more_tokens = [
+        ("OSCAR", "Reply with exactly: OSCAR"),
+        ("PAPA", "Reply with exactly: PAPA"),
+        ("QUEBEC", "Reply with exactly: QUEBEC"),
+        ("ROMEO", "Reply with exactly: ROMEO"),
+        ("SIERRA", "Reply with exactly: SIERRA"),
+        ("TANGO", "Reply with exactly: TANGO"),
+        ("UNIFORM", "Reply with exactly: UNIFORM"),
+        ("VICTOR", "Reply with exactly: VICTOR"),
+        ("WHISKEY", "Reply with exactly: WHISKEY"),
+        ("XRAY", "Reply with exactly: XRAY"),
+        ("YANKEE", "Reply with exactly: YANKEE"),
+        ("ZULU", "Reply with exactly: ZULU"),
+    ]
+    for tok, instr in more_tokens:
+        cases.append(
+            Case(
+                name=f"engine.generate exact token: {tok}",
+                run=lambda tok=tok, instr=instr: generate(system=instr, prompt="go"),
+                validate=_one_word_case(tok),
+            )
+        )
+
     # 16-30: single Block LLM path with crisp constraints.
     block_specs = [
         ("b_yes", ["Reply with exactly one word: YES"], "anything", _one_word_case("YES")),
